@@ -1,0 +1,15 @@
+button {
+  display: block;
+  margin: 5px 0;
+  padding: 10px;
+}
+
+.correct {
+  background-color: #4caf50;
+  color: white;
+}
+
+.wrong {
+  background-color: #f44336;
+  color: white;
+}

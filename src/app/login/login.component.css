@@ -1,0 +1,56 @@
+.body {
+  background: linear-gradient(to bottom, #b5f8ea, #ffffff);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.card {
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+}
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+  font-size: 30px;
+  color: #0f172a;
+}
+.social-btn img {
+  width: 24px;
+  height: 24px;
+}
+.social-btn {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+.form-control {
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+.btn-dark {
+  border-radius: 12px;
+}
+.btn-success{
+  border-radius: 12px;
+}
+
