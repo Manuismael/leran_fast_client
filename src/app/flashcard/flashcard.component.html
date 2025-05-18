@@ -1,0 +1,82 @@
+<div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-center" *ngIf="!isLoading">
+    <i class="bi bi-lightbulb-fill fs-1 text-success"></i>
+    <h6 class="fs-4 text-success">Flashcards !</h6>
+    <p class="text-secondary small">Testez vos connaissances en jouant à cette session Quiz. <br> Chosissez un document pour continuer</p>
+
+    <form (ngSubmit)="onSubmit()"  #file="ngForm">
+      <div class="row g-2 p-3 mb-2 mt-1">
+        <div class="col-10 rounded-4">
+          <div class="input-group">
+            <label for="file" class="input-group-text"><i class="bi bi-file-earmark-arrow-up-fill"></i></label>
+            <select class="form-select" [(ngModel)]="selectedDocument" name="document" id="file" aria-label="Default select example">
+              <option disabled>Choisir un document</option>
+              <option *ngFor="let doc of documents" [value]="doc.Id_docs"> {{ cleanDocumentName(doc.path) }}</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="col-2">
+            <input type="submit" value="Jouer" class="btn btn-success" >
+            <!-- <input type="submit" value="Resume" class="btn btn-success" disabled> -->
+        </div>
+      </div>
+    </form>
+</div>
+
+<div class="flip-container mt-2" *ngIf="isLoading && !showResult">
+  <div class="flip-card" [class.flipped]="showExplanation">
+
+    <!-- Recto -->
+    <div class="flip-card-front card p-4 shadow-sm border-2 text-center">
+      <h6 class="fw-bold mb-3">
+        <i class="bi bi-lightbulb me-1"></i>Flashcard {{ currentIndex + 1 }}/{{ questions.length }}
+      </h6>
+      <p class="fs-5 fw-semibold mb-4">
+        {{ questions[currentIndex]?.statement }}
+      </p>
+      <div class="d-flex justify-content-center gap-4 mb-3">
+        <button class="btn btn-outline-danger rounded" style="width: 50px; height: 50px;" (click)="selectAnswer(false)">
+          <i class="bi bi-x-lg fs-4"></i>
+        </button>
+        <button class="btn btn-outline-success rounded" style="width: 50px; height: 50px;" (click)="selectAnswer(true)">
+          <i class="bi bi-check-lg fs-4"></i>
+        </button>
+      </div>
+
+      <div class="progress position-absolute bottom-0 start-0 w-100" style="height: 6px;">
+        <div
+          class="progress-bar bg-success"
+          role="progressbar"
+          [style.width.%]="(currentIndex + 1) / questions.length * 100"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Verso -->
+    <div class="flip-card-back card p-4 shadow-sm border-0 text-center bg-light">
+      <h6 class="fw-bold mb-2">
+        <i class="bi bi-info-circle me-1"></i>Explication
+      </h6>
+      <p class="text-muted">{{ questions[currentIndex]?.explanation }}</p>
+      <button class="btn btn-secondary mt-3" (click)="nextQuestion()">Suivant</button>
+
+      <!-- Barre de progression -->
+      <div class="progress position-absolute bottom-0 start-0 w-100" style="height: 6px;">
+        <div
+          class="progress-bar bg-success"
+          role="progressbar"
+          [style.width.%]="(currentIndex + 1) / questions.length * 100"
+        ></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Résultat final -->
+<div class="card p-4 mt-4 text-center shadow-sm" *ngIf="showResult">
+  <h4 class="mb-3">Résultat</h4>
+  <p>Score final : {{ score }} / {{ questions.length * 10 }}</p>
+  <button class="btn btn-primary mt-2" (click)="resetQuiz()">Recommencer</button>
+</div>
+

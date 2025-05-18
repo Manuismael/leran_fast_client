@@ -6,16 +6,22 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
+import { QuizComponent } from '../quiz/quiz.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { HeaderComponent } from '../header/header.component';
+import { FlashcardComponent } from '../flashcard/flashcard.component';
+import { StatsComponent } from '../stats/stats.component';
 
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule,HttpClientModule,FormsModule,MarkdownModule ],
+  imports: [CommonModule,HttpClientModule,FormsModule,MarkdownModule,SidebarComponent, HeaderComponent, QuizComponent, FlashcardComponent, StatsComponent],
   templateUrl: './chatbox.component.html',
   styleUrl: './chatbox.component.css'
 })
 export class ChatboxComponent {
-  constructor(private fileUploadService: ResumboxService, private sanitizer: DomSanitizer) {}
+  constructor(private fileUploadService: ResumboxService, private sanitizer: DomSanitizer, private router:Router, private route: ActivatedRoute) {}
 
   file: string = '';
   selectedFile: File | null = null;
@@ -24,9 +30,15 @@ export class ChatboxComponent {
   errorMessage: string | null = null;
   lastText: string = '';
   speech: string = '';
+  activeSection: string = '';
   private utterance: SpeechSynthesisUtterance | null = null;
 
   filename: string = 'Choisissez un fichier';
+  id_user:number= 0;
+
+  ngOnInit() {
+  this.id_user = +(this.route.snapshot.paramMap.get('id_user') || 'null');
+  }
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files && input.files.length > 0) {
@@ -112,8 +124,8 @@ export class ChatboxComponent {
 
     this.isLoading = true;
     try {
-        const response = await this.fileUploadService.uploadFile(this.selectedFile).toPromise();
-        const generateText = await marked(response.summary.response.candidates[0].content.parts[0].text);
+        const response = await this.fileUploadService.uploadFile(this.selectedFile, this.id_user).toPromise();
+        const generateText = await marked(response.generate_summary.response.candidates[0].content.parts[0].text);
         this.summaryText = this.sanitizer.bypassSecurityTrustHtml(generateText) || 'No summary returned';
         //this.speak(response.summary.response.candidates[0].content.parts[0].text);
         this.speech = this.cleanText(response.summary.response.candidates[0].content.parts[0].text);
@@ -122,5 +134,9 @@ export class ChatboxComponent {
     } finally {
         this.isLoading = false;
     }
+  }
+
+  GotoQuiz(){
+    this.router.navigate(['/quiz'])
   }
 }

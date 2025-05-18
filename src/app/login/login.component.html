@@ -10,14 +10,14 @@
     <h4 class="fw-bold mb-2">Se Connecter</h4>
     <p class="text-muted small mb-4">Connecte toi à ton compte pour commencer ta révision</p>
 
-    <form>
+    <form (ngSubmit)="onLogin()" #login="ngForm">
       <div class="mb-3 text-start">
         <label class="form-label small">Email</label>
-        <input type="email" class="form-control" placeholder="Email">
+        <input name="email" [(ngModel)]="email" type="email" class="form-control" placeholder="Email">
       </div>
       <div class="mb-3 text-start">
         <label class="form-label small">Mot de passe</label>
-        <input type="password" class="form-control" placeholder="Mot de passe">
+        <input name="pass" [(ngModel)]="pass" type="password" class="form-control" placeholder="Mot de passe">
       </div>
       <div class="d-flex justify-content-end mb-3">
         <a href="#" class="small text-muted">Mot de passe oublié ?</a>

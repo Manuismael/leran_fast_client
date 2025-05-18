@@ -10,11 +10,11 @@ export class ResumboxService {
 
   constructor(private http:HttpClient) { }
 
-  uploadFile(file: File): Observable<any> {
+  uploadFile(file: File, id_user:number): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post<any>(this.apiUrl, formData).pipe(
+    return this.http.post<any>(`${this.apiUrl}/${id_user}`, formData).pipe(
       catchError(this.handleError)
     );
   }
