@@ -27,4 +27,8 @@ export class ResumboxService {
     }
     return throwError('Something went wrong with the file upload; please try again later.');
   }
+
+  summaryHistory(id_user:number):Observable<any>{
+    return this.http.get<any>(`http://localhost:3000/summary/findsummary/${id_user}`);
+  }
 }

@@ -33,7 +33,7 @@
   }
 
   /**
-   * Easy on scroll event listener 
+   * Easy on scroll event listener
    */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
@@ -317,3 +317,18 @@
   }
 
 })();
+
+//pour le mode sombre
+const toggle = document.getElementById('darkModeToggle');
+toggle.addEventListener('change', function () {
+  document.body.classList.toggle('dark-mode', this.checked);
+});
+// pour appliquer un fond à l'histoique
+const historyLinks = document.querySelectorAll('.sidebar a');
+historyLinks.forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    historyLinks.forEach(l => l.classList.remove('active-history'));
+    this.classList.add('active-history');
+  });
+});

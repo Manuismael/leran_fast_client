@@ -115,18 +115,19 @@ body.dark-mode .active-history {
 .resume{
     height: 0px;
 }
-.text_box::-webkit-scrollbar{
+.sidebar::-webkit-scrollbar{
     width: 8px;
+    height: 1px;
 }
-.text_box::-webkit-scrollbar-track{
+.sidebar::-webkit-scrollbar-track{
     border-radius: 4px;
     background: #f1f1f1;
 }
-.text_box::-webkit-scrollbar-thumb{
+.sidebar::-webkit-scrollbar-thumb{
     background: #888;
     border-radius: 4px;
 }
-.text_box::-webkit-scrollbar-thumb:hover{
+.sidebar::-webkit-scrollbar-thumb:hover{
     background: #555;
 }
 .container_loader {
@@ -189,3 +190,12 @@ body.dark-mode .active-history {
 }
 
 
+.list-group-item {
+  border: none;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}

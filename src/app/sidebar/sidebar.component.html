@@ -1,29 +1,29 @@
 <!-- Sidebar -->
-  <div class="sidebar p-3 d-none d-sm-flex" id="sidebar">
-    <div>
-      <h6 class="text-muted mb-4">Workspace</h6>
-      <button class="btn btn-success mb-3 w-100">Nouveau résumé</button>
-      <div class="d-grid gap-2 mb-4">
-        <h6 class="fw-light mb-1">Historiques</h6>
-        <div class="d-flex flex-column gap-2 small pt-2">
-          <a href="#" class="text-decoration-none text-secondary py-1 px-2 rounded">Introduction to AI</a>
-          <a href="#" class="text-decoration-none text-secondary py-1 px-2 rounded">Deep Learning Basics</a>
-          <a href="#" class="text-decoration-none text-secondary py-1 px-2 rounded">Understanding GPT Models</a>
-        </div>
-      </div>
-    </div>
+<div class="sidebar p-3 d-none d-sm-flex flex-column overflow-auto" id="sidebar" style="max-height: 100vh;">
+  <div>
+    <h6 class="text-muted mb-3">Workspace</h6>
+    <button class="btn btn-success mb-4 w-100" (click)="createNewSummary()">
+      <i class="bi bi-plus-lg me-1"></i> Nouveau résumé
+    </button>
 
-    <div class="mt-auto">
-      <div class="d-flex gap-2 mb-2">
-        <button class="btn btn-success btn-sm">EN</button>
-        <button class="btn btn-light btn-sm">FR</button>
-      </div>
-      <div class="profile">
-        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle " style="width:30px; height:30px">
-        <div class="profile-info mb-5">
-          <strong>ugl</strong><br>
-          <small>ultimategaminglegends</small>
-        </div>
+    <div class="mb-2">
+      <h6 class="mb-2">Historiques</h6>
+      <div class="list-group small">
+        <a (click)="selectHistoric(historic)"
+           *ngFor="let historic of historics"
+           [class.bg-light]="historic.r_id_resum === selectedHistoricId"
+           [class.text-success]="historic.r_id_resum === selectedHistoricId"
+           class="list-group-item list-group-item-action d-flex align-items-center">
+          <span class="text-truncate" style="max-width: 160px;">{{ historic.r_libelle }}</span>
+        </a>
       </div>
     </div>
   </div>
+
+  <div class="mt-auto pt-3 border-top">
+    <div class="d-flex gap-2">
+      <button class="btn btn-success btn-sm w-50">EN</button>
+      <button class="btn btn-outline-secondary btn-sm w-50">FR</button>
+    </div>
+  </div>
+</div>

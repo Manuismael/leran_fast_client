@@ -29,7 +29,7 @@
         </h6>
 
         <div class="d-flex justify-content-between align-items-center small text-muted mb-2">
-          <span class="badge bg-light text-dark">10 points/question</span>
+          <span class="badge bg-light text-dark">1 points/question</span>
           <span class="text-danger fw-semibold">{{ timer }}s</span>
           <span class="text-danger fw-semibold">{{ score }} points</span>
         </div>
@@ -71,7 +71,7 @@
 
       <div *ngIf="showResult" class="d-flex flex-column justify-content-center align-items-center mt-1">
         <h4 class="fw-bold text-success">Quiz terminé !</h4>
-        <p class="fs-5">Votre score final : {{ score }} / {{ questions.length * 10 }}</p>
+        <p class="fs-5">Votre score final : {{ score }} / {{ questions.length }}</p>
         <button class="btn btn-success" (click)="resetQuiz()">Recommencer</button>
       </div>
 

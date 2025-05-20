@@ -33,6 +33,10 @@ export class ChatboxComponent {
   activeSection: string = '';
   private utterance: SpeechSynthesisUtterance | null = null;
 
+  historicText: SafeHtml ='';
+  historics: any[] = [];
+
+
   filename: string = 'Choisissez un fichier';
   id_user:number= 0;
 
@@ -127,8 +131,11 @@ export class ChatboxComponent {
         const response = await this.fileUploadService.uploadFile(this.selectedFile, this.id_user).toPromise();
         const generateText = await marked(response.generate_summary.response.candidates[0].content.parts[0].text);
         this.summaryText = this.sanitizer.bypassSecurityTrustHtml(generateText) || 'No summary returned';
-        //this.speak(response.summary.response.candidates[0].content.parts[0].text);
-        this.speech = this.cleanText(response.summary.response.candidates[0].content.parts[0].text);
+        this.speech = this.cleanText(response.generate_summary.response.candidates[0].content.parts[0].text);
+        //reload
+        this.fileUploadService.summaryHistory(this.id_user).subscribe(data => {
+        this.historics = data;
+        });
     } catch (error) {
         this.errorMessage = 'Failed to upload file. Please try again.';
     } finally {
@@ -139,4 +146,17 @@ export class ChatboxComponent {
   GotoQuiz(){
     this.router.navigate(['/quiz'])
   }
+
+  async onHistoricSelected(historic: any) {
+    const HisText = await marked(historic.r_content);
+    this.speech=historic.r_content;
+    this.historicText = this.sanitizer.bypassSecurityTrustHtml(HisText)
+  }
+
+  onNewSummary(): void {
+    this.historicText = '';
+    this.summaryText = '';
+  }
+
+
 }

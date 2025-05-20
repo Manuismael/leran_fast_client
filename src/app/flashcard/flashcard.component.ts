@@ -70,10 +70,11 @@ export class FlashcardComponent {
     const currentFlashcard = this.questions[this.currentIndex];
     this.selectedOption = isTrue;
     if (isTrue === currentFlashcard.isTrue) {
-      this.score += 10;
+      this.score += 1;
       this.nextQuestion();
     }else{
       this.showExplanation = true;
+
     }
   }
 }
@@ -86,8 +87,8 @@ export class FlashcardComponent {
     this.currentIndex++;
   } else {
     this.showResult = true;
-
-    const body = { Id_user: this.id_user, Id_quiz: this.id_quiz, note: this.score };
+    const notes=this.score*100/this.questions.length
+    const body = { Id_user: this.id_user, Id_quiz: this.id_quiz, note: notes };
     await this.quizService.noteQuiz(body).subscribe(data => {
       console.log(data);
     });

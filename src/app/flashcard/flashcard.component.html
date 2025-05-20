@@ -76,7 +76,7 @@
 <!-- Résultat final -->
 <div class="card p-4 mt-4 text-center shadow-sm" *ngIf="showResult">
   <h4 class="mb-3">Résultat</h4>
-  <p>Score final : {{ score }} / {{ questions.length * 10 }}</p>
-  <button class="btn btn-primary mt-2" (click)="resetQuiz()">Recommencer</button>
+  <p>Score final : {{ score }} / {{ questions.length }}</p>
+  <button class="btn btn-success mt-2" (click)="resetQuiz()">Recommencer</button>
 </div>
 

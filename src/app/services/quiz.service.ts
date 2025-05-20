@@ -27,4 +27,8 @@ export class QuizService {
     return this.http.post(`${this.apiUrl}/notequiz`, body)
   }
 
+  statQuiz(id_user:number):Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/statquiz/${id_user}`)
+  }
+
 }

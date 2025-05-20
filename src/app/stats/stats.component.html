@@ -6,29 +6,16 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                <th scope="col">No</th>
                 <th scope="col">Resumé</th>
-                <th scope="col">Note</th>
+                <th scope="col">Score</th>
+                <th scope="col">Décision</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Understanding GPT Models</td>
-                    <td>10/30</td>
-                    <td><button class="btn btn-success">Rejouer</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Understanding GPT Models</td>
-                    <td>10/30</td>
-                    <td><button class="btn btn-success">Rejouer</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Understanding GPT Models</td>
-                    <td>10/30</td>
-                    <td><button class="btn btn-success">Rejouer</button></td>
+                <tr *ngFor="let stat of stats">
+                    <td>{{stat.libelle}}</td>
+                    <td>{{stat.note}} %</td>
+                    <td>{{stat.niveau}}</td>
                 </tr>
             </tbody>
         </table>

@@ -46,7 +46,7 @@ export class QuizComponent implements OnInit {
 
   async onSubmit() {
     await this.quizService.generateQuiz(this.selectedDocument, this.id_user).subscribe(data=>{
-      this.questions = data.content.question;
+      this.questions = data.content.questions;
       if(this.questions){
         this.isLoading=true;
       }
@@ -67,7 +67,7 @@ export class QuizComponent implements OnInit {
   selectOption(option: any) {
     if (!this.selectedOption) {
       this.selectedOption = option;
-      if (option.correct) this.score += 10;
+      if (option.correct) this.score += 1;
       this.showExplanation = true;
     }
   }
@@ -82,9 +82,10 @@ export class QuizComponent implements OnInit {
       this.startTimer();
     } else {
       this.showResult = true;
+      const notes=this.score*100/this.questions.length
 
     //enregistrer le score final
-    const body ={Id_user:this.id_user, Id_quiz:this.id_quiz, note:this.score};
+    const body ={Id_user:this.id_user, Id_quiz:this.id_quiz, note:notes};
     await this.quizService.noteQuiz(body).subscribe(data => {
       console.log(data);
     });
