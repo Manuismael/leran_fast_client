@@ -23,6 +23,7 @@ export class QuizComponent implements OnInit {
   showExplanation = false;
   selectedDocument: number = 0;
   isLoading: boolean = false;
+  quizz: boolean = false;
 
   actions:string='';
   id_user:number= 0;
@@ -45,13 +46,22 @@ export class QuizComponent implements OnInit {
   }
 
   async onSubmit() {
-    await this.quizService.generateQuiz(this.selectedDocument, this.id_user).subscribe(data=>{
-      this.questions = data.content.questions;
-      if(this.questions){
-        this.isLoading=true;
+    this.isLoading=true;
+    await this.quizService.generateQuiz(this.selectedDocument, this.id_user).subscribe({
+      next:(data)=>{
+        if(data.content.questions){
+        this.questions = data.content.questions;
+        this.quizz = true;
       }
       this.id_quiz = data.saved_quiz.Id_quiz
-    })
+      },
+      error: (error) => {
+        console.error("Erreur lors de la génération", error);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   startTimer() {
@@ -90,6 +100,16 @@ export class QuizComponent implements OnInit {
       console.log(data);
     });
     }
+  }
+
+  async stopQuiz(){
+    this.showResult = true;
+    const notes=this.score*100/this.questions.length
+    //enregistrer le score final
+    const body ={Id_user:this.id_user, Id_quiz:this.id_quiz, note:notes};
+    await this.quizService.noteQuiz(body).subscribe(data => {
+      console.log(data);
+    });
   }
 
   resetQuiz() {

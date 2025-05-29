@@ -28,6 +28,8 @@ export class FlashcardComponent {
   actions:string='';
   id_user:number= 0;
   id_quiz:number= 0;
+  flashcard: boolean = false;
+
 
   constructor(private quizService: QuizService, @Inject(PLATFORM_ID) private platformId: Object, private route: ActivatedRoute,){}
 
@@ -46,13 +48,23 @@ export class FlashcardComponent {
     }
 
     async onSubmit() {
-      await this.quizService.generateFlashcard(this.selectedDocument, this.id_user).subscribe(data=>{
-        this.questions = data.content.flashcards;
-        if(this.questions){
-          this.isLoading=true;
+      this.isLoading=true;
+      this.quizService.generateFlashcard(this.selectedDocument, this.id_user).subscribe({
+        next: (data) => {
+          if(data.content.flashcards){
+            this.questions = data.content.flashcards;
+            this.flashcard=true;
+          }
+
+          this.id_quiz = data.saved_quiz.Id_quiz;
+        },
+        error: (error) => {
+          console.error("Erreur lors de la génération", error);
+        },
+        complete: () => {
+          this.isLoading = false;
         }
-        this.id_quiz = data.saved_quiz.Id_quiz
-      })
+      });
     }
 
   startTimer() {
@@ -74,12 +86,11 @@ export class FlashcardComponent {
       this.nextQuestion();
     }else{
       this.showExplanation = true;
-
     }
   }
 }
 
-  async nextQuestion() {
+async nextQuestion() {
   this.selectedOption = null;
   this.showExplanation = false;
 
@@ -93,12 +104,22 @@ export class FlashcardComponent {
       console.log(data);
     });
   }
-  }
+}
 
-  resetQuiz() {
-    this.currentIndex = 0;
-    this.score = 0;
-    this.showResult = false;
-    this.ngOnInit();
-  }
+async stopQuiz(){
+  this.showResult = true;
+  const notes=this.score*100/this.questions.length
+  //enregistrer le score final
+  const body ={Id_user:this.id_user, Id_quiz:this.id_quiz, note:notes};
+  await this.quizService.noteQuiz(body).subscribe(data => {
+    console.log(data);
+  });
+}
+
+resetQuiz() {
+  this.currentIndex = 0;
+  this.score = 0;
+  this.showResult = false;
+  this.ngOnInit();
+}
 }

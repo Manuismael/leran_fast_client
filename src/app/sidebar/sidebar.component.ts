@@ -19,9 +19,7 @@ export class SidebarComponent {
   ngOnInit(): void {
     this.id_user = +(this.route.snapshot.paramMap.get('id_user') || 'null');
     if (isPlatformBrowser(this.platformId)) {
-      this.history.summaryHistory(this.id_user).subscribe(data => {
-        this.historics = data;
-      });
+      this.loadHistorics();
     }
   }
 
@@ -37,6 +35,12 @@ export class SidebarComponent {
   createNewSummary() {
     this.selectedHistoricId = '';
     this.newSummary.emit();
+  }
+
+  loadHistorics():void{
+    this.history.summaryHistory(this.id_user).subscribe(data => {
+        this.historics = data;
+      });
   }
 
 }
