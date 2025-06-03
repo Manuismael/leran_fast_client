@@ -22,11 +22,22 @@
       <div class="d-flex justify-content-end mb-3">
         <a href="#" class="small text-muted">Mot de passe oublié ?</a>
       </div>
+
+      <!-- erreur -->
+      <div class="alert alert-warning" role="alert" *ngIf="erreur">
+        Veuillez remplir tout les champs
+      </div>
+
+      <!-- erreur -->
+      <div class="alert alert-danger" role="alert" *ngIf="identifiantErreur">
+        Veuillez entrer les identifiants correctes
+      </div>
+
       <button class="btn btn-success w-100 mb-3">Continuer</button>
     </form>
 
-    <div class="text-muted small mb-2"><a href="#" class=" text-muted">Je n'ai pas un compte !</a></div>
-    <button class="btn btn-dark w-100 mb-3">S'inscrire</button>
+    <div class="text-muted small mb-2"><a class=" text-muted">Je n'ai pas un compte !</a></div>
+    <button class="btn btn-dark w-100 mb-3" (click)="register()">S'inscrire</button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>

@@ -40,9 +40,12 @@ export class ChatboxComponent {
   filename: string = 'Choisissez un fichier';
   id_user:number= 0;
 
+  fileURL: any = null;
+
   ngOnInit() {
   this.id_user = +(this.route.snapshot.paramMap.get('id_user') || 'null');
   }
+
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files && input.files.length > 0) {
@@ -67,6 +70,7 @@ export class ChatboxComponent {
       this.selectedFile = null;
     }
   }
+
   cleanText(text: string): string {
     return text
     .replace(/[*•▪️◆►▶▪→-]/g, '')       // Supprimer les puces et symboles
@@ -79,20 +83,20 @@ export class ChatboxComponent {
   }
 
   speak(text: string) {
-  const cleanedText = this.cleanText(text);
-  this.lastText = cleanedText;
+    const cleanedText = this.cleanText(text);
+    this.lastText = cleanedText;
 
-  if (!('speechSynthesis' in window)) {
-    console.log('speechSynthesis is not supported in this browser.');
-    return;
-  }
+    if (!('speechSynthesis' in window)) {
+      console.log('speechSynthesis is not supported in this browser.');
+      return;
+    }
 
-  window.speechSynthesis.cancel();
+    window.speechSynthesis.cancel();
 
-  // Découpage par phrase (finissant par . ! ? ou fin de ligne)
-  const chunks = cleanedText.match(/[^\.!\?\n]+[\.!\?\n]+|.+$/g) || [];
+    // Découpage par phrase (finissant par . ! ? ou fin de ligne)
+    const chunks = cleanedText.match(/[^\.!\?\n]+[\.!\?\n]+|.+$/g) || [];
 
-  const speakChunk = (index: number) => {
+    const speakChunk = (index: number) => {
     if (index >= chunks.length) return;
 
     const chunk = chunks[index].trim();
@@ -122,7 +126,6 @@ export class ChatboxComponent {
   setTimeout(() => speakChunk(0), 100);
   }
 
-
   stopSpeech() {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
@@ -136,10 +139,10 @@ export class ChatboxComponent {
   }
 
   speakWithResponsiveVoice(text: string) {
-     const cleanedText = this.cleanText(text);
+    const cleanedText = this.cleanText(text);
     if (responsiveVoice && cleanedText) {
       responsiveVoice.cancel(); // au cas où une lecture est en cours
-      responsiveVoice.speak(cleanedText, 'French Female', { rate: 1 });
+      responsiveVoice.speak(cleanedText, 'French Male', { rate: 1 });
     }
   }
 
@@ -182,6 +185,12 @@ export class ChatboxComponent {
     this.historicText = '';
     this.summaryText = '';
   }
+
+  logout() {
+    localStorage.removeItem('isLoggedIn');
+    this.router.navigate(['/login']);
+  }
+
 
 
 }

@@ -1,0 +1,98 @@
+body {
+      background: linear-gradient(to top, #b5f8d3, #ffffff);
+      min-height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .typing-effect {
+      display: inline-block;
+      border-right: 2px solid black;
+      padding-left: 0.5ch;
+      animation: blink 0.8s infinite;
+      vertical-align: baseline;
+    }
+
+  .feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px #b5f8d3 solid;
+    border-radius: 15px;
+  }
+
+  .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px #b5f8d388;
+  }
+
+  .icon-wrapper {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+  }
+
+  .bg-soft-primary { background-color: #e8f1ff; }
+  .bg-soft-success { background-color: #e6f8f3; }
+  .bg-soft-warning { background-color: #fff8e9; }
+  .bg-soft-feature { background-color: #ffffff; }
+
+  .card-title {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-heading {
+    font-weight: 700;
+    background: linear-gradient(120deg, #002e15, #077e3c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Curseur clignotant */
+  @keyframes blink {
+  0%, 100% { border-color: black; }
+  50% { border-color: transparent; }
+  }
+
+
+  .custom-accordion {
+    max-width: 800px;
+    margin: 2rem auto;
+    --bs-accordion-btn-bg: #ffffff;
+    --bs-accordion-active-bg: #f8f9fa;
+    --bs-accordion-active-color: #009443;
+    --bs-accordion-btn-focus-border-color: #e9ecef;
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+}
+
+.accordion-button {
+    padding: 1.25rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.accordion-button:not(.collapsed) {
+    box-shadow: none;
+}
+
+.accordion-body {
+    padding: 1.5rem;
+    line-height: 1.6;
+    color: #6c757d;
+}
+
+.accordion-item {
+    border: 1px solid #e9ecef;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem !important;
+    overflow: hidden;
+}
+
+.accordion-button::after {
+    transition: transform 0.3s ease;
+}

@@ -1,5 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,14 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-  isDarkMode = false;
+  constructor(private router:Router, @Inject(PLATFORM_ID) private platformId: Object){}
 
-toggleDarkMode(event: any): void {
-  this.isDarkMode = event.target.checked;
-  document.body.classList.toggle('dark-mode', this.isDarkMode);
-}
+  logout() {
+    if(isPlatformBrowser(this.platformId)){
+      localStorage.removeItem('authToken');
+      this.router.navigate(['/login']);
+    }
+  }
+
 
 }

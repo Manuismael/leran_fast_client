@@ -1,28 +1,25 @@
 <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-center" *ngIf="!isLoading && !flashcard">
-    <i class="bi bi-lightbulb-fill fs-1 text-success"></i>
-    <h6 class="fs-4 text-success">Flashcards !</h6>
-    <p class="text-secondary small">Testez vos connaissances en jouant à cette session Quiz. <br> Chosissez un document pour continuer</p>
+  <i class="bi bi-lightbulb-fill fs-1 text-success"></i>
+  <h6 class="fs-4 text-success">Flashcards !</h6>
+  <p class="text-secondary small">Testez vos connaissances en jouant à cette session Quiz. <br> Choisissez un document pour continuer</p>
 
-    <form (ngSubmit)="onSubmit()"  #file="ngForm">
-      <div class="row g-2 p-3 mb-2 mt-1">
-        <div class="col-10 rounded-4">
-          <div class="input-group">
-            <label for="file" class="input-group-text"><i class="bi bi-file-earmark-arrow-up-fill"></i></label>
-            <select class="form-select" [(ngModel)]="selectedDocument" name="document" id="file" aria-label="Default select example">
-              <option disabled>Choisir un document</option>
-              <option *ngFor="let doc of documents" [value]="doc.Id_docs"> {{ cleanDocumentName(doc.path) }}</option>
-            </select>
-          </div>
-
-        </div>
-        <div class="col-2">
-            <input type="submit" value="Jouer" class="btn btn-success" >
-            <!-- <input type="submit" value="Resume" class="btn btn-success" disabled> -->
+  <form (ngSubmit)="onSubmit()" #file="ngForm">
+    <div class="row g-2 p-3 mb-2 mt-1">
+      <div class="col-10 rounded-4">
+        <div class="input-group">
+          <label for="file" class="input-group-text"><i class="bi bi-file-earmark-arrow-up-fill"></i></label>
+          <select class="form-select" [(ngModel)]="selectedDocument" name="document" id="file" aria-label="Default select example">
+            <option disabled selected>Choisir un document</option>
+            <option *ngFor="let doc of documents" [value]="doc.Id_docs">{{ cleanDocumentName(doc.path) }}</option>
+          </select>
         </div>
       </div>
-    </form>
+      <div class="col-2">
+        <input type="submit" value="Jouer" class="btn btn-success">
+      </div>
+    </div>
+  </form>
 </div>
-
 
 <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-center mt-4" *ngIf="isLoading">
   <div class="dot-spinner">
@@ -41,52 +38,43 @@
   <div class="flip-card" [class.flipped]="showExplanation">
 
     <!-- Recto -->
-    <div class="flip-card-front card p-4 shadow-sm border-2 text-center">
-      <h6 class="fw-medium mb-3">
+    <div class="flip-card-front card-flash">
+      <img src="assets/img/7.png" alt="Décor haut" class="top-right-img" />
+      <img src="assets/img/6.png" alt="Décor bas" class="bottom-left-img" />
+
+      <h5 class="fw-bold mb-3">
         <i class="bi bi-lightbulb me-1"></i>Flashcard {{ currentIndex + 1 }}/{{ questions.length }}
-      </h6>
-      <p class="fs-5 fw-semibold mb-4">
-        {{ questions[currentIndex]?.statement }}
-      </p>
-      <div class="d-flex justify-content-center gap-4 mb-3">
-        <button class="btn btn-outline-danger rounded" style="width: 50px; height: 50px;" (click)="selectAnswer(false)">
-          <i class="bi bi-x-lg fs-4"></i>
-        </button>
-        <button class="btn btn-outline-success rounded" style="width: 50px; height: 50px;" (click)="selectAnswer(true)">
-          <i class="bi bi-check-lg fs-4"></i>
-        </button>
+      </h5>
+      <p class="fs-5 fw-normal mb-4">{{ questions[currentIndex]?.statement }}</p>
+      <div class="d-flex justify-content-center gap-4 mb-4">
+        <button class="btn btn-faux" (click)="selectAnswer(false)">FAUX</button>
+        <button class="btn btn-vrai" (click)="selectAnswer(true)">VRAI</button>
       </div>
 
-      <div class="progress position-absolute bottom-0 start-0 w-100" style="height: 6px;">
-        <div
-          class="progress-bar bg-success"
-          role="progressbar"
-          [style.width.%]="(currentIndex + 1) / questions.length * 100"
-        ></div>
+      <div class="d-flex justify-content-end mt-3">
+        <button class="terminer-btn" (click)="stopQuiz()">TERMINER</button>
+      </div>
+
+      <div class="progress position-absolute bottom-0 start-0 w-100" style="height: 6px; z-index: 2;">
+        <div class="progress-bar bg-success" role="progressbar" [style.width.%]="(currentIndex + 1) / questions.length * 100"></div>
       </div>
     </div>
 
     <!-- Verso -->
-    <div class="flip-card-back card p-4 shadow-sm border-0 text-center bg-light">
-      <h6 class="fw-bold mb-2">
+    <div class="flip-card-back card-flash">
+      <img src="assets/img/5.png" alt="Décor haut" class="top-right-img" />
+      <img src="assets/img/4.png" alt="Décor bas" class="bottom-left-img" />
+
+      <h5 class="fw-bold mb-3">
         <i class="bi bi-info-circle me-1"></i>Explication
-      </h6>
+      </h5>
       <p class="text-muted">{{ questions[currentIndex]?.explanation }}</p>
       <button class="btn btn-secondary mt-3" (click)="nextQuestion()">Suivant</button>
 
-      <!-- Barre de progression -->
-      <div class="progress position-absolute bottom-0 start-0 w-100" style="height: 6px;">
-        <div
-          class="progress-bar bg-success"
-          role="progressbar"
-          [style.width.%]="(currentIndex + 1) / questions.length * 100"
-        ></div>
+      <div class="progress position-absolute bottom-0 start-0 w-100" style="height: 6px; z-index: 2;">
+        <div class="progress-bar bg-success" role="progressbar" [style.width.%]="(currentIndex + 1) / questions.length * 100"></div>
       </div>
     </div>
-
-  </div>
-  <div class="d-flex justify-content-end">
-    <button class="btn btn-danger mx-2" (click)="stopQuiz()">Terminer</button>
   </div>
 </div>
 
@@ -96,4 +84,3 @@
   <p>Score final : {{ score }} / {{ questions.length }}</p>
   <button class="btn btn-success mt-2" (click)="resetQuiz()">Recommencer</button>
 </div>
-

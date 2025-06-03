@@ -15,13 +15,19 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   constructor(private authService:AuthService, private router:Router,){}
+
   nom: string = '';
   prenom: string = '';
   email: string = '';
   pass: string = '';
 
+  erreur: boolean = false;
+
   async onRegistered(){
-    console.log("okkkk")
+    
+    if(!this.nom || !this.prenom || !this.email || !this.pass){
+      this.erreur=true;
+    }
     const body={
       nom:this.nom,
       prenom:this.prenom,
@@ -35,5 +41,9 @@ export class RegisterComponent {
       }
     });
     return register;
+  }
+
+  login(){
+    this.router.navigate([`/login`]);
   }
 }
